@@ -7,7 +7,7 @@ y0 = 1.0;
 f = @(t,y) -100*y + 100*cos(t) - sin(t);
 yd = @(t) cos(t);   % exact solution
 
-method = 'explicit;;;;lllllllllllllllllllllllllllllllllllllllllllll';
+method = 'explicit';
 % possible methods: 'explicit', 'implicit', 'trapezoidal', 'midpoint'
 
 for h = [0.4, 0.2, 0.1, 0.05, 0.01]
