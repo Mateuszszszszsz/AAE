@@ -7,14 +7,16 @@ y0 = 1.0;
 f = @(t,y) -100*y + 100*cos(t) - sin(t);
 yd = @(t) cos(t);   % exact solution
 
-method = 'explicit';
+method = 'implicit';
 % possible methods: 'explicit', 'implicit', 'trapezoidal', 'midpoint'
 
-for h = [0.4, 0.2, 0.1, 0.05, 0.01]
+er = [];
+
+for h = [0.4, 0.2, 0.1, 0.05, 0.025, 0.0125]
     n = abs(a - b) / h;    % calculate number of steps based on step size and total time
     t = linspace(a, b, n + 1);
 
-    ydd = zeros(round(n), 1);   % exact values at times k * h
+    ydd = zeros(1, round(n));   % exact values at times k * h
     for k = 1:n+1
         ydd(k) = yd(t(k));
     end
@@ -40,21 +42,31 @@ for h = [0.4, 0.2, 0.1, 0.05, 0.01]
             ya = [];
             ya(1) = y0;
             for k = 1:n
-                %yar = ;
+                yar = (2 * ya(k) + h * (100 * cos(t(k)) - sin(t(k)) + 100 * cos(t(k+1)) - sin(t(k+1))))/(2*(1+50 * h));
+                ya = [ya, yar];
             end
 
         case 'midpoint'
             ya = [];
             ya(1) = y0;
             ya(2) = y0 + h * f(t0, y0);
-            for k=2:n
+            for k = 2:n
                 yar = ya(k-1) + 2 * h * ya(k);
                 ya = [ya, yar];
             end
     end
 
-    figure(h*1000);
+    figure(h*10000);
     plot(t, ya, '.', t, ydd, '-');
     title("Grid: " + h);
-    ylim([-500, 500]);
+
+    e = max(abs(ya-ydd), [], "all");
+    er = [er, e];
+
+    wykl = er(1:length(er)-1)./er(2:length(er));
+    alpha = log2(wykl);
+
+    for i = 1:length(alpha)
+        fprintf(1, "%f \n", (alpha(i)));
+    end
 end
