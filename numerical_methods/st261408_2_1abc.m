@@ -3,7 +3,7 @@ a = 1.0;
 b = 2.0;
 t0 = a;
 y0 = -1.0;
-des_accuracy = 0.01;
+des_accuracy = 0.001;
 
 f = @(t,y) 1/t^2-y/t-y^2;
 yd = @(t) -1/t;   % exact solution
