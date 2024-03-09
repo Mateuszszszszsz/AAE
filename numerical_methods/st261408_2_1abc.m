@@ -39,7 +39,7 @@ while max_error > des_accuracy
             ya = [];
             ya(1) = y0;
             for k = 1:n
-                yar =((-(1+h/(t(k+1)+1)))+sqrt((1+2*h/(t(k+1)+1))^2-4*h*((1/(t(k+1)+1))^2-ya(k))))/(2*h*t(k+1));
+                yar =((-(1+h/(t(k+1)+1)))+sqrt((1+2*h/(t(k+1)+1))^2-4*h*((1/(t(k+1)+1))^2-ya(k))))/(2*h*t(k+1)*t(k+1));
                 ya = [ya, yar];
             end
     end
