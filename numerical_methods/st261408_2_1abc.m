@@ -9,7 +9,7 @@ f = @(t,y) 1/t^2-y/t-y^2;
 yd = @(t) -1/t;   % exact solution
 
 method = 'implicit';
-% possible methods: 'explicit', 'implicit', 'trapezoidal', 'midpoint'
+% possible methods: 'explicit', 'implicit'
 
 er = [];
 target_points = [1.04, 1.55, 1.97];
@@ -60,7 +60,7 @@ while max_error > des_accuracy
 %c
    error_y = abs(ydd-ya);
    max_error = max(error_y)
-%end
+end
 
     figure(1);
     plot(t, ya, '.', t, ydd, '-');
@@ -77,7 +77,7 @@ while max_error > des_accuracy
     end
 
 
-end
+
 
 function value = lin_int(x0,y0,x1,y1,x)
 value = y0 +(y1-y0)*(x-x0)/(x1-x0);

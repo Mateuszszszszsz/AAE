@@ -8,7 +8,7 @@ f = @(t,y) -100*y + 100*cos(t) - sin(t);
 yd = @(t) cos(t);   % exact solution
 
 method = 'implicit';
-% possible methods: 'explicit', 'implicit', 'trapezoidal', 'midpoint'
+% possible methods: 'explicit', 'implicit'
 
 er = [];
 
