@@ -7,8 +7,8 @@ y0 = 1.0;
 f = @(t,y) -100*y + 100*cos(t) - sin(t);
 yd = @(t) cos(t);   % exact solution
 
-method = 'implicit';
-% possible methods: 'explicit', 'implicit'
+method = 'trapezoidal';
+% possible methods: 'explicit', 'implicit', 'trapezoidal', 'midpoint'
 
 er = [];
 
@@ -42,7 +42,8 @@ for h = [0.4, 0.2, 0.1, 0.05, 0.025, 0.0125]
             ya = [];
             ya(1) = y0;
             for k = 1:n
-                yar = (2 * ya(k) + h * (100 * cos(t(k)) - sin(t(k)) + 100 * cos(t(k+1)) - sin(t(k+1))))/(2*(1+50 * h));
+                yar = (ya(k)+h/2*(-100*ya(k)+100*cos(t(k))-sin(t(k))+100*cos(t(k+1))-sin(t(k+1))))/(1+h/2*100)
+                %yar = (2 * ya(k) + h * (100 * cos(t(k)) - sin(t(k)) + 100 * cos(t(k+1)) - sin(t(k+1))))/(2*(1+50 * h));
                 ya = [ya, yar];
             end
 
