@@ -12,8 +12,9 @@ method = 'trapezoidal';
 
 er = [];
 
-for h = [0.4, 0.2, 0.1, 0.05, 0.025, 0.0125]
-    n = abs(a - b) / h;    % calculate number of steps based on step size and total time
+for n= [10 ,20 , 40, 80, 160, 320, 640, 1280] %h = [0.4, 0.2, 0.1, 0.05, 0.025, 0.0125]
+    h =  abs(a - b) / n; %calculate grid size  
+    %n = abs(a - b) / h;    % calculate number of steps based on step size and total time
     t = linspace(a, b, n + 1);
 
     ydd = zeros(1, round(n));   % exact values at times k * h
@@ -42,8 +43,7 @@ for h = [0.4, 0.2, 0.1, 0.05, 0.025, 0.0125]
             ya = [];
             ya(1) = y0;
             for k = 1:n
-                yar = (ya(k)+h/2*(-100*ya(k)+100*cos(t(k))-sin(t(k))+100*cos(t(k+1))-sin(t(k+1))))/(1+h/2*100)
-                %yar = (2 * ya(k) + h * (100 * cos(t(k)) - sin(t(k)) + 100 * cos(t(k+1)) - sin(t(k+1))))/(2*(1+50 * h));
+                yar = (ya(k)+h/2*(-100*ya(k)+100*cos(t(k))-sin(t(k))+100*cos(t(k+1))-sin(t(k+1))))/(1+h/2*100);
                 ya = [ya, yar];
             end
 
@@ -57,7 +57,7 @@ for h = [0.4, 0.2, 0.1, 0.05, 0.025, 0.0125]
             end
     end
 
-    figure(h*10000);
+    figure(n);
     plot(t, ya, '.', t, ydd, '-');
     title("Grid: " + h);
 
