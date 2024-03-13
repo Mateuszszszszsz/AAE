@@ -21,7 +21,7 @@ exact_f =  @(t) -1/t;
 
 %method choice 'explicit', 'implicit'
 
-method = 'implicit';
+method = 'explicit';
 
 %solving start
 
