@@ -69,7 +69,7 @@ end
     e = max(abs(ya-ydd), [], "all");
     er = [er, e];
 
-    wykl = er(1:length(er)-1)./er(2:length(er));
+    wykl = er(1:length(er)-1)./er(2:length(er))
     alpha = log2(wykl);
 
     for i = 1:length(alpha)
@@ -80,6 +80,6 @@ end
 
 
 function value = lin_int(x0,y0,x1,y1,x)
-value = y0 +(y1-y0)*(x-x0)/(x1-x0);
+delta = (y1-y0)*(x-x0)/(x1-x0);
+value = y0 +delta;
 end
-
