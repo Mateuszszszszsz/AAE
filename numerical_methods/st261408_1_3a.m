@@ -15,8 +15,8 @@ exact_f = @(t) cos(t);
 
 
 %solving start
-
-for n = [10 ,20 , 40, 80, 160, 320, 640, 1280] %iterating throught numers of samples
+numberOfProbes = 2.^(1:12);
+for n = numberOfProbes %iterating throught numers of samples
     h =  abs(interval_start - interval_end) / n; %grid size calculation
     t = linspace(interval_start, interval_end, n + 1); %time vector init
 
@@ -54,5 +54,12 @@ fprintf(1, " points case index is: %f" , index(length(index)))
 fprintf(1, " with maximum error: %f \n", temp_e)
 end
 end
-
+figure(2)
+plot( numberOfProbes, error)
+set(gca, 'YScale', 'log')
+title("Maximum error values:");
+figure(3)
+plot(numberOfProbes(2: end), index)
+set(gca, 'YScale', 'log')
+title("Index values:")
 
