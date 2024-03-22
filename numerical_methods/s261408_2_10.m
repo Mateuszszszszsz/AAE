@@ -9,8 +9,8 @@ dydt = @(x, y) x + y*(1 - sqrt(x^2 + y^2));
 rk2 = @(f, x, y, h) y + h/2 * (f(x, y) + f(x + h, y + h * f(x, y)));
 
 % Define the range and step size for plotting
-x_range = linspace(interval_start,interval_end , 40);
-y_range = linspace(interval_start,interval_end , 40);
+x_range = linspace(interval_start,interval_end , 30);
+y_range = linspace(interval_start,interval_end , 30);
 [X, Y] = meshgrid(x_range, y_range);
 
 % Calculate slopes at each point using the defined system of equations
@@ -60,6 +60,8 @@ for i = 1:size(initial_conditions, 1)
  Xt = [Xt, x];
  Yt = [Yt, y];
     end
-    plot(Xt,Yt,'--rs','LineWidth',3,'MarkerSize',0.001);
+    plot(Xt,Yt,'--rs','LineWidth',3,'MarkerSize',0.001,'Color',[initial_conditions(i,i) 0 0]);
+
     axis([-2 2 -2 2])
 end
+    legend("Slope Field","Probe1", "Probe 2")
