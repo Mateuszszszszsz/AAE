@@ -24,6 +24,7 @@ N = sqrt(U.^2+V.^2);
 U = U./N;
 V=V./N;
 % Plot the slope field
+figure(1)
 quiver(X, Y, U, V);
 hold on;
 title('Slope Field');
@@ -40,9 +41,12 @@ initial_conditions = [
 
 % Iterate through initial conditions and plot approximate solutions
 for i = 1:size(initial_conditions, 1)
+    Xt = [initial_conditions(i, 1)];
+    Yt = [initial_conditions(i, 2)];
     x0 = initial_conditions(i, 1);
     y0 = initial_conditions(i, 2);
     h = 0.01; % Step size
+
     num_steps =  abs(interval_start-interval_end ) / h;
     x = x0;
     y = y0;
@@ -65,3 +69,7 @@ for i = 1:size(initial_conditions, 1)
     axis([-2 2 -2 2])
 end
     legend("Slope Field","Probe1", "Probe 2")
+    Xt = [Xt, x];
+    Yt = [Yt, x];
+
+
