@@ -6,22 +6,20 @@ a = 1;
 b = 2;
 y_a = 2;
 y_b = 2.5;
-p = 0.4;
-q = -0.3;
+p = 0.8; %initial p
+q = -0.9; %initial q
 h = 0.001;  % step size for Runge-Kutta's method
 hs = 0.001; % tolerance of shooting method
 
 
-final_p = shooting_method(a, b, y_a, y_b, p, q, h,hs);
+final_p = shooting_method(a, b, y_a, y_b, p, q, h,hs); 
 
-x_grid = a:h:b;
-
-% final function calculation
-y_final = rk2(a, b, [y_a; final_p], h);
-y_exact = x_grid + 1 ./ x_grid;
-plot(x_grid, y_final(1, :));
+x_grid = a:h:b; %linspace
+y_final = rk2(a, b, [y_a; final_p], h); %computing final approximated solution
+y_exact = x_grid + 1 ./ x_grid; %computing exact solution
+plot(x_grid, y_final(1, :)); %plotting aproximated solution
 hold on;
-plot(x_grid, y_exact);
+plot(x_grid, y_exact); %plotting exact solution
 hold off;
 xlabel('x');
 ylabel('y');
@@ -61,7 +59,5 @@ function final_p = shooting_method(a, b, y_a, y_b, initial_p, initial_q, step_si
             q = c;
         end
     end
-
-   % fprintf('p* = %.6f\n', c);
     final_p = p;
 end

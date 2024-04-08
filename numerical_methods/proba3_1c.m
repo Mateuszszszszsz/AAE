@@ -6,7 +6,7 @@ clear all;
 y_a = 2;
 y_b = 5/2;
 initial_slope_guess = -0.5; % Initial guess for y'(1)
-step_size = 0.01; % Step size for RK4 method
+step_size = 0.01; % Step size for RK method
 
 % Solve the BVP using the shooting method
 slope_guess = shooting_method(@differential_equation, [1, 2], y_a, y_b, initial_slope_guess, step_size);
