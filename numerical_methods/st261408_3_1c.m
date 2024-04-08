@@ -1,7 +1,4 @@
 clear all
-
-
-% initial and boundary conditions
 a = 1;
 b = 2;
 y_a = 2;
@@ -10,26 +7,26 @@ p = 0.8; %initial p
 q = -0.9; %initial q
 h = 0.001;  % step size for Runge-Kutta's method
 hs = 0.001; % tolerance of shooting method
-
-
-final_p = shooting_method(a, b, y_a, y_b, p, q, h,hs); 
-
 x_grid = a:h:b; %linspace
-y_final = rk2(a, b, [y_a; final_p], h); %computing final approximated solution
+
+final_p = shooting_method(a, b, y_a, y_b, p, q, h,hs); %main algorithm returning final p 
+y_approx = rk2(a, b, [y_a; final_p], h); %computing final approximated solution
 y_exact = x_grid + 1 ./ x_grid; %computing exact solution
-plot(x_grid, y_final(1, :)); %plotting aproximated solution
-hold on;
+
+figure(1)
 plot(x_grid, y_exact); %plotting exact solution
+hold on;
+plot(x_grid, y_approx(1, :)); %plotting aproximated solution
 hold off;
 xlabel('x');
 ylabel('y');
 legend('Approxiated', 'Exact Solution');
 
-function y = f(x, y)
+function y = f(x, y) %differential equation function
     y = [y(2); 2 * y(1)^3 - 6 * y(1) - 2 * x^3];
 end
 
-function y = rk2(a, b, initial_conditions, h)
+function y = rk2(a, b, initial_conditions, h) %runge kutta's 2nd order function
     x = a:h:b;
     n = length(x);
     y = zeros(length(initial_conditions), n);
@@ -42,20 +39,20 @@ function y = rk2(a, b, initial_conditions, h)
     end
 end
 
-function final_p = shooting_method(a, b, y_a, y_b, initial_p, initial_q, step_size, tolerance)
+function final_p = shooting_method(a, b, y_a, y_b, initial_p, initial_q, rk_step_size, tolerance) %shooting method function returning final p
     p = initial_p;
     q = initial_q;
-
+%do
     c = (p + q) / 2;
-    y = rk2(a, b, [y_a; c], step_size);
-
+    y = rk2(a, b, [y_a; c], rk_step_size);
+%while
     while (abs(y(1, end) - y_b) > tolerance)
         c = (p + q) / 2;
-        y = rk2(a, b, [y_a; c], step_size);
+        y = rk2(a, b, [y_a; c], rk_step_size);
 
-        if y(1, end) > y_b
+        if y(1, end) > y_b  %yb error >0 (in chart)
             p = c;
-        else
+        else                %yb error <0 (in chart)
             q = c;
         end
     end
