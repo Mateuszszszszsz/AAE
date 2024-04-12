@@ -1,5 +1,5 @@
 clear all;
-t1  = tic
+
 y = [28 ; 30 ; 21 ; 23 ; 23]; % yield of field
 x = [
     1 50 18 10 ; 
@@ -7,8 +7,11 @@ x = [
     1 35 14 10 ;  
     1 40 12 12 ; 
     1 30 16 14];
-
+t1  = tic
 a = inv(x'*x)*x'*y
+t1 = toc(t1)
+a = x\y
+
 y = [28 30  21  23  23];
 X1 = [50 40 35 40 30]
 X2 = [18 20 14 12 16]
@@ -20,7 +23,7 @@ X3 = [10 16 10 12 14]
 %     sum(x(:,2)) sum(x(:,2).^2) sum(x(:,3).^2) sum(x(:,4).^2) ];
 % Y  = sum()
 %yEst2 = inv(S)*Y
-t1 = toc(t1)
+
 
 % nsIdx = Smoker == 0;
 % smIdx = Smoker == 1;
