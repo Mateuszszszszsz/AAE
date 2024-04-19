@@ -15,7 +15,7 @@ exact_f = @(t) cos(t);
 
 %method choice 'explicit', 'implicit', 'trapezoidal', 'midpoint'
 
-method = 'midpoint';
+method = 'implicit';
 
 %solving start
 
