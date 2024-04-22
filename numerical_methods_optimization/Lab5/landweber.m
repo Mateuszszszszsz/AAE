@@ -2,10 +2,7 @@ function [x, residual_error, solution_error] = landweber(A, b, max_iterations, a
     [~, n] = size(A);
     x = zeros(n, 1);
     
-    exact = A\b; 
-    % compute errors:
-    %   solution error: norm(current_x - exact)/norm(exact)
-    %   residual error: 
+    exact = gaussian_elimination(A, b);
     residual_error = [];
     solution_error = [];
 
