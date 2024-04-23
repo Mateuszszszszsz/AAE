@@ -17,8 +17,7 @@ x = [
 1 -0.04	0.79	0.46	0.99;
 1 -0.12	0.65	0.75	1.86;
 1 0.07	0.57	0.63	1.93;
-]; 
-%data matrix
+]; %data matrix
 a = x\y %coefficient matrix
 y1 = x*a %estimated output power with coeficients
 res = y1-y %residuals of Output power
