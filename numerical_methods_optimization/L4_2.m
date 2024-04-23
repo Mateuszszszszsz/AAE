@@ -12,11 +12,12 @@ b = A*x
 
 
 [U, S, V] = svd(A)    % Performing Singular Value Decomposition (SVD)
-x1 = V * (S \ (U' * b));
-%x1 = (inv(A'*A)*A')*b %nie działa
-%x1 = pinv(A)*b
 
-b1  =A*x1
+x1 = V * (S \ (U' * b))
+t1 = tic
+x1 = pinv(A)*b
+t1 = toc(t1)
+b1  =A*x1;
 
 res = x -x1 
 
