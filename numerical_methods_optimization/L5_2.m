@@ -8,10 +8,14 @@ b = [1;2;1];
 
 [x_jacobi, res_j, sol_j] = jacobi(A, b, 10e6);
 [x_gauss_seidel, res_gs, sol_gs] = gauss_seidel(A, b, 10e6);
-[x_landweber, res_l, sol_l] = landweber(A, b, 10e6, 0.11);
-[x_sor, res_s, sol_s] = successive_over_relaxation(A, b, 10e6, 1);
-[x_kacz, res_kacz, sol_kacz] = kaczmarz(A, b, 10e6, 1);
 
+t1 = tic;
+[x_landweber, res_l, sol_l] = landweber(A, b, 10e6, 0.11);
+t1=toc(t1)
+[x_sor, res_s, sol_s] = successive_over_relaxation(A, b, 10e6, 1);
+t2=tic;
+[x_kacz, res_kacz, sol_kacz] = kaczmarz(A, b, 10e6, 1);
+t2=toc(t2)
 scale =5;
 
 figure(1);
