@@ -1,7 +1,5 @@
 clear all;
-close all;
-clc;
-1;
+
 n = 50;
 h = 1 / n;
 a = 0; b = 1;
@@ -9,7 +7,7 @@ a = 0; b = 1;
 x = linspace(a, b, n+1);
 exact_solution = (x - 1) .* exp(x);
 
-g = @(x) -(x.^2 + 3) .* exp(x); %ok
+g = @(x) -(x.^2 + 3) .* exp(x); 
 p = @(x) -(x+1);
 q = 2;
 A = zeros(n+1, n+1);
