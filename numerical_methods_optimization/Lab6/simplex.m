@@ -37,7 +37,7 @@ function [value, x] = simplex(A, b, fun)
             break
         end
 
-        pivots = [pivots, [piv_r, piv_c]'];
+        pivots = [pivots, [piv_r piv_c]'];
 
         pivot = tab(piv_r, piv_c);
         tab(piv_r, :) = tab(piv_r, :) ./ pivot;
@@ -50,5 +50,5 @@ function [value, x] = simplex(A, b, fun)
     end
 
     value = tab(rows, columns);
-    x(pivots(2, :)) = tab(pivots(2, :), columns);
+    x(pivots(:, 2)) = tab(pivots(:, 1), columns);
 end
