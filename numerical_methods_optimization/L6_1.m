@@ -15,13 +15,14 @@ b = [4; 12; 1];
 lb = [0; 0];
 
 % Use linprog to solve the linear programming problem
-[x, Z] = linprog(-c, A, b, [], [], lb);
+t1 = tic;
+[Z,x] = simplex(A,b,c)
+%[x, Z] = linprog(-c, A, b, [], [], lb);
+t1=toc(t1)
 
-% The maximum value of x + y
-max_x_plus_y = -Z;
 
 % Display results
 disp("Optimal Solution:")
 disp("x = " + x(1))
 disp("y = " + x(2))
-disp("Max x + y = " + max_x_plus_y)
+disp("Max x + y = " + Z)
