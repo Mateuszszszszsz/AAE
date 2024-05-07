@@ -44,14 +44,6 @@ end
 c = A \ f;
 y = A*c;
 
-yp = [];
-%div calc
-for i = 1:n
-yp(i) = (y(i+1)-y(i))/h;
-end
-
-
-
 %plotting figure
 
 figure(n);
@@ -71,7 +63,7 @@ error = [error , temp_e ]; %adding maximum error for the particular n point case
 %calculating in1 error
 temp_e_h = [];
 for i=1:n-1
-temp_e_h = [temp_e_h,(fp(x(i))-(exact_solution_x(i+1)-exact_solution_x(i))/h)];
+temp_e_h = [temp_e_h,(abs(fp(x(i))-(exact_solution_x(i+1)-exact_solution_x(i))/h))];
 end
 
 temp_e_h = temp_e+ max(temp_e_h);
