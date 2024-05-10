@@ -18,6 +18,18 @@ x = [
 1 -0.12	0.65	0.75	1.86;
 1 0.07	0.57	0.63	1.93;
 ]; %data matrix
+
+x1 =[];
+for i=1:7
+x1(i,1) = 1;
+x1(i,2) = x(i,2)+x(i,3);
+x1(i,3) = (x(i,4)+x(i,5)/2);
+end
+x2 = [];
+
+
+
 a = x\y %coefficient matrix
-y1 = x*a %estimated output power with coeficients
-res = y1-y %residuals of Output power
+a1 = x1\y
+y1 = x1*a1
+err = y1-y
