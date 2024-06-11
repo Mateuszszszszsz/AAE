@@ -1,4 +1,4 @@
-clear all;
+
 close all;
 
 %data init
@@ -27,22 +27,24 @@ for i = 1:n+1
      exact_solution_x(i) = exact_solution(x(i)); %vector of exact solutions in time
 end
    % method
-       A = zeros(n-1, n-1);
-f = zeros(n-1);
+       A_b = zeros(n-1, n-1);
+f_b = zeros(n-1,1);
 
   for i = 1:n-1
         for j = 1:n-1
-            A(i, j) = integral(@(x) phi_prime(x, i, h) .* phi_prime(x, j, h) + (x + 1) .* phi(x, i, h) .* phi(x, j, h), max((i-1)*h, 0), min((i+1)*h, 1));
+            if abs(i-j)<=1
+            A_b(i, j) = integral(@(x) phi_prime(x, i, h) .* phi_prime(x, j, h) + (x + 1) .* phi(x, i, h) .* phi(x, j, h), max((i-1)*h, 0), min((i+1)*h, 1));
+            end
         end
-        f(i) = integral(@(x) (pi^2 + x + 1) .* sin(pi * x) .* phi(x, i, h), max((i-1)*h, 0), min((i+1)*h, 1));
+        f_b(i) = integral(@(x) (pi^2 + x + 1) .* sin(pi * x) .* phi(x, i, h), max((i-1)*h, 0), min((i+1)*h, 1));
     end
    % Solve the linear system
-    coeffs = A \ f;
+    c_b = A_b \ f_b;
     
     % Compute the approximate solution
     y = zeros(size(x));
     for i = 1:n-1
-        y = y + coeffs(i) * phi(x, i, h);
+        y = y + c_b(i) * phi(x, i, h);
     end
 
 %plotting figure

@@ -16,7 +16,7 @@ p = @(x) 1;
 q = @(x) (x+1);
 
 %solving start
-numberOfProbes = [50 100 200 400 800]; %2.^(1:12);
+numberOfProbes = [50 100]; %2.^(1:12);
 for n = numberOfProbes %iterating throught numers of samples
     h =  abs(interval_start - interval_end) / n; %grid size calculation
     x = linspace(interval_start, interval_end, n+1);
@@ -27,41 +27,31 @@ for i = 1:n+1
      exact_solution_x(i) = exact_solution(x(i)); %vector of exact solutions in time
 end
    % method
-       A = zeros(n+1, n+1);
-f = zeros(n+1, 1);
+       A = zeros(n-1, n-1);
+f = zeros(n-1,1);
 
-for i = 1:n
+for i = 1:n-2
          A(i, i) = (p(h * i - (h/2)) + p(h * i + (h/2)))/h + (q(h * i - h/2) + q(h * i + h/2)) * (h/3);
          A(i, i + 1) = -p(h * i + h/2) / h + q(h * i + h/2) * (h/6);
          A(i + 1, i) = -p(h * i + h/2) / h + q(h * i + h/2) * (h/6);
 end
 
-A(1,1) = (p(- (h/2)) + p((h/2)))/h + (q(- h/2) + q( h/2)) * (h/3);
-A(n+1, n+1) = (p(h * (n+1) - (h/2)) + p(h * (n+1) + (h/2)))/h + (q(h * (n+1) - h/2) + q(h * (n+1) + h/2)) * (h/3);
+A(n-1, n-1) = (p(h * (n+1) - (h/2)) + p(h * (n+1) + (h/2)))/h + (q(h * (n+1) - h/2) + q(h * (n+1) + h/2)) * (h/3);
 
 
-for i = 1:n
-   f(i+1) = quad(fx,x(i),x(i+1)); %matlab functtion
-   % f(i) = (fx(x(i)) + 4* fx((x(i)+x(i+1))/2) +   fx(x(i+1)))*h/6; %myself quad
+for i = 1:n-1
+   %f(i) = quad(fx,x(i),x(i+1)); %matlab functtion
+    f(i) = (fx(x(i)) + 4* fx((x(i)+x(i+1))/2) +   fx(x(i+1)))*h/6; %myself quad
 
-    %f(i) = 0.5*h*(fx(h*i-h/2)+fx(h*i+h/2));
-    %f(i) = (fx((x(i)+x(i-1))/2)+fx((x(i)+x(i+1))/2))/2;             
+            
 end
-
-
-f(1) = 0;
-f(n+1) = 0;
 
 c = A \ f;
 
-y = [];
-y(1) = 0;
-for j=1:n
-    y(j+1) = 0;
-    for i=1:j
-        y(j+1) = y(j+1)+    c(i)*phi((x(j)-x(i))/h);
+    y = zeros(size(x));
+    for i = 1:n-1
+        y = y + c(i) * phi(x, i, h);
     end
-end
 
 %plotting figure
 
@@ -101,9 +91,8 @@ figure(3)
 plot(numberOfProbes(2: end), index)
 title("Index values:")
 
-function y = phi(x)
-y=0;
-if x >= -1 && x <= 1
-y = -abs(x)+1;
-end
+
+function val = phi(x, i, h)
+    % Hat function
+    val = max(1 - abs(x - i * h) / h, 0);
 end
