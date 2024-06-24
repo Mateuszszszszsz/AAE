@@ -1,100 +1,71 @@
-clear all;
+clear all
+close all
 
-%data init
-
-interval_start = 0.0;
-interval_end = pi;
-error = [];
-error_h1 = [];
-%function init
-exact_solution = @(x) sin(x);
-fx = @(x) sin(x);
-fp = @(x) cos(x);
+a = 0.0;
+b = pi;
+refine = 5;
+f = @(x) sin(x);
+f_prim = @(x) cos(x);
 
 
-%solving start
-numberOfProbes = [50 100 200 400 800]; %2.^(1:12);
-for n = numberOfProbes %iterating throught numers of samples
-    h =  abs(interval_start - interval_end) / n; %grid size calculation
-    x = linspace(interval_start, interval_end, n+1);
+N = [50, 100, 200, 400, 800];
+er = [];
+er_1 = [];
+
+for n = N
+    x_coarse = linspace(a, b, n + 1);
+    points = arrayfun(f, x_coarse);
     
-    exact_solution_x = zeros(1, round(n)); %place for approximated function
-for i = 1:n+1
-     exact_solution_x(i) = exact_solution(x(i)); %vector of exact solutions in time
-end
-   % method
-       A = zeros(n+1, n+1);
-f = zeros(n+1, 1);
+    x_dense = linspace(a, b, refine * (n + 1));  %  grid to compare approximation with exact values
+    y_approx = linear_interpolation(x_coarse, points, x_dense);
+    y_approx_prime = div(y_approx, x_dense);
+    
+    y_exact = arrayfun(f, x_dense);
+    y_exact_prime = arrayfun(f_prim, x_dense);
+    
+    max_error = max(abs(y_exact - y_approx));
+    er = [er max_error];
+    
+    errors_1 = abs(y_exact - y_approx) + abs(y_exact_prime - y_approx_prime);
+    max_error_1 = max(errors_1);
+    er_1 = [er_1 max_error_1];
+    
+    figure;
+    plot(x_coarse, points, '.', x_dense ,y_approx, '-')
+    xlim([0, pi]);
+    lgd = legend( "exact","approximated","location",'south' );
 
-for i = 1:n
-    A(i, i+1) = h/6;
-    A(i, i) = 2*h/3;
-    A(i+1, i) = h/6;
-end
-
-A(1, 1) = 2*h/3;
-A(n+1, n+1) = 2*h/3;
-f(1) = 0;
-f(n+1) = 0;
-
-for i = 2:n
-    f(i) = (fx( (x(i)+x(i-1))/2 )+fx(   (x(i)+x(i+1))/2   ))/2;             
 end
 
-c = A \ f;
-y = A*c;
-
-%plotting figure
-
-figure(n);
-plot(x, y, '.', x ,exact_solution_x, '-');
-title("Grid: " + h);
-lgd = legend("approximated", "exact","location",'north' );
-title(lgd, "Solution:");
-xlim([0, pi]);
-
-%error calculation
-
-temp_e = max(abs(exact_solution_x-y'), [], "all");
-error = [error , temp_e ]; %adding maximum error for the particular n point case
+er = er';
+wykl = er(1:end-1) ./ er(2:end);
+alpha = log2(wykl);
 
 
+er_1 = er_1';
+wykl_1 = er_1(1:end-1) ./ er_1(2:end);
+alpha_1 = log2(wykl_1);
 
-%calculating in1 error
-temp_e_h = [];
-for i=1:n-1
-temp_e_h = [temp_e_h,(abs(fp(x(i))-(exact_solution_x(i+1)-exact_solution_x(i))/h))];
+for i = 2:length(er)
+    fprintf('For %d error = %f , alpha = %f, er_1 = %f, alpha_1 = %f \n', N(i), er(i),alpha(i-1),er_1(i),alpha_1(i-1));
 end
 
-temp_e_h = temp_e+ max(temp_e_h);
-error_h1 = [error_h1 , temp_e_h ];
-
-
-
-index = log2(error(1:length(error)-1)./error(2:length(error)));
-index_h = log2(error_h1(1:length(error_h1)-1)./error_h1(2:length(error_h1)));
-if(n>numberOfProbes(1))
-fprintf(1, "For n: %f" , n)
-fprintf(1, " points case index is: %f" , index(length(index)))
-fprintf(1, " with maximum error: %f ", temp_e)
-fprintf(1, " ERR1 index is: %f" , index_h(length(index_h)))
-fprintf(1, " error1: %f \n", temp_e_h)
+function y_dense = linear_interpolation(x_coarse, y_coarse, x_dense)
+    y_dense = zeros(size(x_dense));
+    for i = 1:length(x_dense)
+        for j = 1:length(x_coarse) - 1
+            if x_coarse(j) <= x_dense(i) && x_dense(i) <= x_coarse(j + 1)
+                y_dense(i) = y_coarse(j) + (y_coarse(j + 1) - y_coarse(j)) * ...
+                    (x_dense(i) - x_coarse(j)) / (x_coarse(j + 1) - x_coarse(j));
+                break;
+            end
+        end
+    end
 end
+function y_prime_dense = div(y_dense, x_dense)
+    y_prime_dense = zeros(size(y_dense));
+    h = x_dense(2) - x_dense(1);
+    y_prime_dense(2:end-1) = (y_dense(3:end) - y_dense(1:end-2)) / (2 * h);
+    y_prime_dense(1) = (y_dense(2) - y_dense(1)) / h;
+    y_prime_dense(end) = (y_dense(end) - y_dense(end-1)) / h;
 end
-figure(2)
-plot( numberOfProbes, error)
-set(gca, 'YScale', 'log')
-title("Error values:");
-figure(3)
-plot(numberOfProbes(2: end), index)
-%set(gca, 'YScale', 'log')
-title("Index values:")
-figure(4)
-plot( numberOfProbes, error_h1)
-set(gca, 'YScale', 'log')
-title("Error1 values:");
-figure(5)
-plot(numberOfProbes(2: end), index_h)
-%set(gca, 'YScale', 'log')
-title("Error1 index values:")
-

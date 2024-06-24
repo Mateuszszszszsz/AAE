@@ -9,7 +9,7 @@ t0 = 0;
 tk = 0.5;
 
 Lamb = [0.2, 0.4, 0.6];
-numberOfProbes = [20, 40];
+numberOfProbes = [20, 40,80,180,360];
 
 
 
@@ -23,7 +23,7 @@ for lamb = Lamb
         disp(['lambda = ', num2str(lamb), ', n = ', num2str(n)]);
 
         h = (xk - x0) / n;
-        k = lamb * h^2;
+        k = lamb * h;
         m = floor(tk / k);
 
         x = linspace(x0, xk, n + 1);
@@ -32,7 +32,7 @@ for lamb = Lamb
 
 
         % Checking stability conditions
-        stable = k / (h^2) <= 1/2;
+        stable = k / (h) <= 1/2;
 
         if ~stable
             disp(['- stability condition: NOT OK - UNSTABLE']);
@@ -104,8 +104,8 @@ u=zeros(n,1)
 for i=1:length(x)
     Utemp = 0;
     for kk =1 :5
-Utemp = Utemp + ak(kk)*sin(kk*pi*0.5*x(i))*cos(kk*pi*0.5*t(m))
-    end
+Utemp = Utemp + ak(kk)*sin(kk*pi*0.5*x(i))*cos(kk*pi*0.5*t(m));
+   end
     u(i) = Utemp;
 end
 
