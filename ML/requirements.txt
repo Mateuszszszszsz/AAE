@@ -1,6 +1,7 @@
 setuptools
 numpy < 2.0
 matplotlib
+opencv-python
 scikit-learn
 scikit-learn-extra
 scikit-fuzzy

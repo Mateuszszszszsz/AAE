@@ -5,8 +5,12 @@ from sklearn.cluster import KMeans
 
 img = cv.imread('ORL/subset/1.pgm')
 
-print(img.shape)
-cv.kmeans(img, 5)
+img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
 
-# kmeans = KMeans()
-# kmeans.fit(img)
+img = img.reshape(-1, 3)
+
+kmeans = KMeans()
+kmeans.fit(img)
+
+plt.scatter(img, c=kmeans.labels_)
+plt.show()
