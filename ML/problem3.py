@@ -1,14 +1,30 @@
-import cv2 as cv
+from PIL import Image
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 
-img = cv.imread('ORL/subset/1.pgm')
+images =[]
 
-img = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+for filename in os.listdir("ORL/subset"):
+  img_path = os.path.join("ORL/subset", filename)
+  image = Image.open(img_path)
+  images.append(np.array(image).flatten())
 
-img = img.reshape(-1, 3)
 
-kmeans = KMeans()
-kmeans.fit(img)
+images = np.array(images)
 
+n_clusters = 5
+kmeans = KMeans(n_clusters=n_clusters)
+kmeans.fit(images)
+
+print(kmeans.labels_)
+n_images = 10
+fig, axes = plt.subplots(1, n_images, figsize=(15, 5))
+
+for ax, img, label in zip(axes, images, kmeans.labels_):
+    ax.imshow(img.reshape(112, 92), cmap='gray')  # Adjust shape as necessary
+    ax.set_title(f'{label}')
+    ax.axis('off')
+
+plt.show()
