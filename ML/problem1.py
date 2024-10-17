@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import sklearn.cluster as cluster
+import sklearn.mixture as mixture
 from sklearn_extra.cluster import KMedoids
 import skfuzzy as fuzzy
 
@@ -69,7 +70,13 @@ dbscan.fit(mixed)
 ax[2][0].set_title("DBSCAN clustering")
 ax[2][0].scatter(x_mixed, y_mixed, c=dbscan.labels_)
 
-#
+
+# GMM
+gmm = mixture.GaussianMixture(n_components=3)
+gmm.fit(mixed)
+
+ax[2][1].set_title("GMM clustering")
+ax[2][1].scatter(x_mixed, y_mixed, c=gmm.predict(mixed))
 
 # Display plots
 plt.show()

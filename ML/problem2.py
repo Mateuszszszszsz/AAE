@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import sklearn.cluster as cluster
+import sklearn.mixture as mixture
 from sklearn_extra.cluster import KMedoids
 import skfuzzy as fuzzy
 
@@ -28,7 +29,7 @@ y_mixed = np.concatenate([y_1, y_2, y_3])
 mixed = np.array(list(zip(x_mixed, y_mixed)))
 
 # Clustering
-fig, ax = plt.subplots(2, 2)
+fig, ax = plt.subplots(3, 2)
 
 # K-Means clustering
 kmeans = cluster.KMeans(n_clusters=3)
@@ -61,6 +62,21 @@ spectral_clustering.fit(mixed)
 ax[1][1].set_title("Spectral clustering")
 ax[1][1].scatter(x_mixed, y_mixed, c=spectral_clustering.labels_)
 
+
+# DBSCAN
+dbscan = cluster.DBSCAN()
+dbscan.fit(mixed)
+
+ax[2][0].set_title("DBSCAN clustering")
+ax[2][0].scatter(x_mixed, y_mixed, c=dbscan.labels_)
+
+
+# GMM
+gmm = mixture.GaussianMixture(n_components=3)
+gmm.fit(mixed)
+
+ax[2][1].set_title("GMM clustering")
+ax[2][1].scatter(x_mixed, y_mixed, c=gmm.predict(mixed))
 
 # Display plots
 plt.show()
