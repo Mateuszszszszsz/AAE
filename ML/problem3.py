@@ -12,5 +12,3 @@ img = img.reshape(-1, 3)
 kmeans = KMeans()
 kmeans.fit(img)
 
-plt.scatter(img, c=kmeans.labels_)
-plt.show()
