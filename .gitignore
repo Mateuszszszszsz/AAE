@@ -1,3 +1,7 @@
+#command to activate venv
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+.venv\Scripts\Activate.ps1
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
