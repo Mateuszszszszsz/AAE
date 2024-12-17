@@ -7,9 +7,27 @@ import heartpy as hp
 # Read data from 'LAB5_500HzFHR.wav'
 samplerate, data = wavfile.read('./LAB5_500HzFHR.wav')
 
-# Signal normalization
+time = np.arange(len(data)) / samplerate
+
 normalized = data / max(abs(data))
-plt.specgram(normalized, Fs=samplerate)
+plt.figure(figsize=(12, 6))
+plt.plot(time, normalized, label='Normalized signal')
+# plt.plot(peaks / samplerate, filtered[peaks], 'r.', label='Detected Peaks')
+plt.xlabel('Time (s)')
+plt.ylabel('Amplitude')
+plt.title('Normalized signal')
+plt.legend()
+plt.show()
+
+
+# Signal normalization
+plt.specgram(normalized, Fs=samplerate, NFFT=1024, noverlap=512, cmap='viridis')
+plt.title('Spectrogram of Normalized Signal')
+plt.xlabel('Time [s]')
+plt.ylabel('Frequency [Hz]')
+plt.colorbar(label='Power/Frequency [dB/Hz]')
+plt.ylim(0, 20)
+plt.show()
 
 # Filtration - bandpass 1-5Hz
 # Nyquist frequency
@@ -18,13 +36,16 @@ f_n = samplerate / 2
 b, a = butter(4, [1 / f_n, 5 / f_n], btype='band')
 filtered = filtfilt(b, a, normalized)
 
+plt.specgram(filtered, Fs=samplerate, NFFT=1024, noverlap=512, cmap='viridis')
+plt.title('Spectrogram of Filtered Signal')
+plt.xlabel('Time [s]')
+plt.ylabel('Frequency [Hz]')
+plt.colorbar(label='Power/Frequency [dB/Hz]')
+plt.ylim(0, 20)
+plt.show()
 plt.show()
 
-plt.specgram(filtered, samplerate)
-
-plt.show()
-
-peaks, _ = find_peaks(filtered, distance = f_n*.9)
+peaks, _ = find_peaks(filtered, distance = f_n)
 
 intervals = np.diff(peaks) / samplerate
 heart_rate = 60 / np.mean(intervals)
