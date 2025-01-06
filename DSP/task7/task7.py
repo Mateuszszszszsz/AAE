@@ -17,7 +17,7 @@ model = tf.keras.Sequential([
 model.compile(optimizer='sgd', loss='mean_squared_error')
 
 # Train the model
-history = model.fit(x, y, epochs=1000, verbose=0)
+history = model.fit(x, y, epochs=1500, verbose=0)
 
 # Plot loss function during training
 loss_values = history.history['loss']
@@ -49,3 +49,6 @@ plt.ylabel('y')
 plt.title('Linear Regression with One Neuron')
 plt.legend()
 plt.savefig("2.png")
+``
+
+print(f"a: {a} b: {b}\n Loss Value 250: {loss_values[249]}500 {loss_values[499]} 750: {loss_values[749]} 1000: {loss_values[999]}1250: {loss_values[1249]}1500: {loss_values[1499]}")
