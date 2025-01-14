@@ -4,17 +4,21 @@ import cv2
 import imutils
 import numpy as np
 import pytesseract
+from pytesseract import image_to_string
 from PIL import Image
-
-img = cv2.imread('car1.jpg',cv2.IMREAD_COLOR)
+# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+img = cv2.imread('car4.jpg',cv2.IMREAD_COLOR)
 
 img = cv2.resize(img, (620,480) )
 
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) #convert to grey scale
 
-gray = cv2.bilateralFilter(gray, 11, 17, 17) #Blur to reduce noise
+gray = cv2.bilateralFilter(gray, 100, 17, 17) #Blur to reduce noise(src, d, sigmaColor, sigmaSpace)
 
-edged = cv2.Canny(gray, 30, 200) #Perform Edge detection
+median_val = np.median(gray)
+lower = int(max(0, 0.67 * median_val))
+upper = int(min(255, 1.33 * median_val))
+edged = cv2.Canny(gray, lower, upper)  #Perform Edge detection
 
 # find contours in the edged image, keep only the largest
 # ones, and initialize our screen contour
@@ -54,6 +58,14 @@ new_image = cv2.bitwise_and(img,img,mask=mask)
 (topx, topy) = (np.min(x), np.min(y))
 (bottomx, bottomy) = (np.max(x), np.max(y))
 Cropped = gray[topx:bottomx+1, topy:bottomy+1]
+
+# Thresholding for better OCR
+_, Cropped = cv2.threshold(Cropped, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+# # Use Tesseract OCR
+# config = '--oem 3 --psm 1'
+# text = pytesseract.image_to_string(Cropped, config=config)
+# print("Detected Number:", text.strip())
 
 cv2.imshow('image',img)
 cv2.imshow('Cropped',Cropped)

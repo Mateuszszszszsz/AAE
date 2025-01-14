@@ -16,8 +16,12 @@ while True:
     # Detect the faces
     faces = face_cascade.detectMultiScale(gray, 1.1, 4)
     # Draw the rectangle around each face
+    text_y_position = 25  # Starting Y position for the coordinates
     for (x, y, w, h) in faces:
         cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
+        coord_text = f"({x}, {y}) to ({x+w}, {y+h})"
+        cv2.putText(img, coord_text, (10, text_y_position), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
+        text_y_position += 25
     # Display
     cv2.imshow('img', img)
     # Stop if escape key is pressed
