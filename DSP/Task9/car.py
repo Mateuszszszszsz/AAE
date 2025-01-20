@@ -7,18 +7,33 @@ import pytesseract
 from pytesseract import image_to_string
 from PIL import Image
 # pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-img = cv2.imread('car4.jpg',cv2.IMREAD_COLOR)
+img = cv2.imread('car3.jpg',cv2.IMREAD_COLOR)
+img = cv2.convertScaleAbs(img, alpha=1, beta=1)
 
-img = cv2.resize(img, (620,480) )
+img = cv2.resize(img, (620*2,480*2) )
 
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) #convert to grey scale
 
-gray = cv2.bilateralFilter(gray, 100, 17, 17) #Blur to reduce noise(src, d, sigmaColor, sigmaSpace)
+gray = cv2.bilateralFilter(gray, 20, 17, 50) #Blur to reduce noise(src, d, sigmaColor, sigmaSpace)
 
 median_val = np.median(gray)
 lower = int(max(0, 0.67 * median_val))
 upper = int(min(255, 1.33 * median_val))
 edged = cv2.Canny(gray, lower, upper)  #Perform Edge detection
+
+Cropped = cv2.equalizeHist(edged)
+
+# **Apply morphological operations to close gaps in edges**
+kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (2, 4))
+edged = cv2.morphologyEx(edged, cv2.MORPH_CLOSE, kernel)
+dilate= cv2.dilate(Cropped, kernel, iterations=2)  # Further strengthen the edges
+
+cv2.imshow("debug_gray.jpg", gray)
+cv2.imshow("debug_edge", edged)
+cv2.imshow("debug_cropped", Cropped)
+cv2.imshow("debug_dilate.jpg", dilate)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
 
 # find contours in the edged image, keep only the largest
 # ones, and initialize our screen contour

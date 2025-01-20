@@ -4,10 +4,10 @@ import cv2
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades +  'haarcascade_frontalface_default.xml')
 
 # To capture video from webcam. 
-cap = cv2.VideoCapture(0)
+# cap = cv2.VideoCapture(0)
 # To use a video file as input 
 # cap = cv2.VideoCapture('filename.mp4')
-
+cap = cv2.VideoCapture("testAI.jpg")
 while True:
     # Read the frame
     _, img = cap.read()
@@ -24,6 +24,7 @@ while True:
         text_y_position += 25
     # Display
     cv2.imshow('img', img)
+    cv2.imwrite("detected_faces_output.jpg", img)
     # Stop if escape key is pressed
     k = cv2.waitKey(30) & 0xff
     if k==27:
