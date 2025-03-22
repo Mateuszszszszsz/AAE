@@ -75,10 +75,10 @@ new_image = cv2.bitwise_and(img, img, mask=mask)
 (bottomx, bottomy) = (np.max(x), np.max(y))
 Cropped = gray[topx : bottomx + 1, topy : bottomy + 1]
 
-# Use Tesseract OCR
-config = '--oem 3 --psm 3'
-text = pytesseract.image_to_string(Cropped, config=config)
-print("Detected Number:", text.strip())
+# # Use Tesseract OCR
+# config = '--oem 3 --psm 1'
+# text = pytesseract.image_to_string(Cropped, config=config)
+# print("Detected Number:", text.strip())
 
 cv2.imshow("image", img)
 cv2.imshow("Cropped", Cropped)
