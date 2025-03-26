@@ -1,3 +1,0 @@
-/home/jakub/Studia/S24_25/COS/Lab3/task3_2/build/CMakeFiles/task3_2.dir
-/home/jakub/Studia/S24_25/COS/Lab3/task3_2/build/CMakeFiles/edit_cache.dir
-/home/jakub/Studia/S24_25/COS/Lab3/task3_2/build/CMakeFiles/rebuild_cache.dir
