@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <unistd.h>
+
+int main(int argc, char **argv) {
+  pid_t ret_pid = -1;
+
+  for (int i = 0; i < 5; i++) {
+    ret_pid = fork();
+    if (ret_pid == -1) {
+      fprintf(stderr, "Fork error\n");
+      return 1;
+    }
+
+    if (ret_pid == 0) {
+      break;
+    }
+  }
+
+  pid_t my_pid = getpid();
+
+  if (ret_pid == 0) {
+    printf("PID: %d - I am a child.\n", my_pid);
+  } else {
+    printf("PID: %d - I am a parent\n", my_pid);
+  }
+
+  return 0;
+}

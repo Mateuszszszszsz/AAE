@@ -1,0 +1,1 @@
+/usr/bin/cc -rdynamic -Wl,--dependency-file=CMakeFiles/task4_1.dir/link.d CMakeFiles/task4_1.dir/task4_1.c.o -o task4_1  -lrt

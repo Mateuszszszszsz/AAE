@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/jakub/Studia/S24_25/COS/Lab3/build",
+  "command": "/usr/bin/gcc -g -o CMakeFiles/task3_2.dir/task3_2.c.o -c /home/jakub/Studia/S24_25/COS/Lab3/task3_2/task3_2.c",
+  "file": "/home/jakub/Studia/S24_25/COS/Lab3/task3_2/task3_2.c",
+  "output": "CMakeFiles/task3_2.dir/task3_2.c.o"
+}
+]

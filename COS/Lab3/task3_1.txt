@@ -1,0 +1,27 @@
+Question 1:
+
+Default queues_max = 256 queues.
+
+
+Question 2:
+
+-   Up to Linux 2.6.32: HARD_MSGMAX = 131072 / sizeof(void*)
+-   Linux 2.6.33 to Linux 3.4: HARD_MSGMAX = (32768 * sizeof(void*) / 4)
+-   Linux 3.5 and up: HARD_MSGMAX = 65536
+
+
+Question 3:
+
+-   Before Linux 2.6.28: upper limit of msgsize_max = INTMAX
+-   Linux 2.6.28 to Linux 3.4: upper limit of msgsize_max = 1,048,576
+-   Linux 3.5 and up: HARD_MSGSIZEMAX = 16,777,216
+
+
+Question 4:
+
+Default msg_max = 10 messages
+
+
+Question 5:
+
+Default msgsize_max = 8192 bytes
