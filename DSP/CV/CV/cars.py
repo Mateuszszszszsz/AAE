@@ -2,7 +2,7 @@ import cv2
 import imutils
 import numpy as np
 
-CAR_NR = 3
+CAR_NR = 4
 
 img = cv2.imread(f"car{CAR_NR}.jpg", cv2.IMREAD_COLOR)
 cv2.imshow("Original", img)
@@ -127,4 +127,7 @@ cv2.imshow("image", img)
 cv2.imshow("Cropped", Cropped)
 
 cv2.waitKey(0)
-cv2.destroyAllWindows()
+
+while True:
+  pass
+# cv2.destroyAllWindows()

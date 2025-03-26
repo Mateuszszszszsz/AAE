@@ -42,6 +42,7 @@ if output_model_filename is not None:
 
 model.summary()
 plot_model(model, 'model.png', show_shapes=True)
+model.evaluate(data, labels)
 
 for i in range(25):
     ax = plt.subplot(5, 5, i + 1)
@@ -66,8 +67,6 @@ for file in os.listdir("my_numbers"):
     numbers.append(img_array)
 
 numbers = np.array(numbers)
-
-print(numbers.shape)
 
 for i in range(10):
     ax = plt.subplot(2, 5, i + 1)

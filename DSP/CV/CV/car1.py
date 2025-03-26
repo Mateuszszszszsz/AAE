@@ -5,23 +5,29 @@ import pytesseract
 from PIL import Image
 
 img = cv2.imread("car1.jpg", cv2.IMREAD_COLOR)
-img_copy = img
+cv2.imshow("Original", img)
+cv2.waitKey(0)
 
-
-# img = cv2.convertScaleAbs(img, alpha=3, beta=0.0)
 
 img = cv2.resize(img, (620, 480))
+cv2.imshow("Resized", img)
+cv2.waitKey(0)
+
 
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # convert to grey scale
+cv2.imshow("Grayscale", gray)
+cv2.waitKey(0)
 
-img = cv2.resize(img_copy, (620, 480))
 
 gray = cv2.bilateralFilter(gray, 11, 17, 17)  # Blur to reduce noise
+cv2.imshow("Blurred", gray)
+cv2.waitKey(0)
+
 
 edged = cv2.Canny(gray, 30, 200)  # Perform Edge detection
-# cv2.imshow("Debug", edged)
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
+cv2.imshow("Edges", edged)
+cv2.waitKey(0)
+
 
 # find contours in the edged image, keep only the largest
 # ones, and initialize our screen contour
@@ -34,14 +40,12 @@ screenCnt = None
 for c in cnts:
     # approximate the contour
     peri = cv2.arcLength(c, True)
-    print(c)
     approx = cv2.approxPolyDP(c, 0.017 * peri, True)
 
 
     # if our approximated contour has four points, then
     # we can assume that we have found our screen
     if len(approx) == 4 and cv2.isContourConvex(approx):
-        print(approx)
         screenCnt = approx
         break
 
